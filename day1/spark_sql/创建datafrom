@@ -1,0 +1,4 @@
+方式1：
+  pysparksseions对象.createfrom("数据"，表头和数据类型，分隔符....)
+方式2：
+  rdd算子.toDF(表头....)
