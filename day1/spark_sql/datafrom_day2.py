@@ -6,6 +6,7 @@ if __name__ == '__main__':
    rdd=sc.parallelize([('zhangshang',1),('wang',2),('lisi',5)])
    schema=StructType().add("name",StringType(),True).add("age",IntegerType(),True)#自定义数据类型
    # w=rdd.toDF(schema=["name","www"])
+
    w=rdd.toDF(schema=schema)
    w.printSchema()
    w.show()
