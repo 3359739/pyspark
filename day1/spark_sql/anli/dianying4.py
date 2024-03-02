@@ -15,13 +15,18 @@ def dsl():
    pass
 
 def sql():
+   df.createTempView("vi")
+   df1=spark.sql("select go_id from vi where feng>3 group by go_id ")
+   df1.createTempView("vi1")
+   spark.sql("SELECT  t.nameid FROM vi t JOIN vi1 t1 ON t.go_id = t1.go_id GROUP BY  t.nameid order by count(1) desc limit 1")
+   spark.sql("select avg(feng) from (SELECT  * FROM vi  where nameid =(SELECT  t.nameid FROM vi t JOIN vi1 t1 ON t.go_id = t1.go_id GROUP BY  t.nameid order by count(1) desc limit 1))").show()
    pass
 if __name__ == '__main__':
    spark = SparkSession.builder.master("local[*]").appName("Python Spark SQL").getOrCreate()
    sc=spark.sparkContext
    df=spark.read.format("csv").option("header","true").option("sep",",").option("inferSchema",True).load("file:///wenjian/lxh.data")
-   dsl()
-   # sql()
+   # dsl()
+   sql()
 
    spark.stop()
    sc.stop()
